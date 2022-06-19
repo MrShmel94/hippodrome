@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+<appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
+    <rollingPolicy class="org.apache.log4j.rolling.FixedWindowRollingPolicy">
+
+    </rollingPolicy>
+        <param name="maxFileSize" value="10MB"/>
+        <param name="maxBackupIndex" value="7"/>
+        <param name="file" value="logs/hippodrome.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %c{1}: %-5m%n"/>
+        </layout>
+    </appender>
+
+<!--    <category name="" additivity="false">-->
+<!--        &lt;!&ndash;all, trace, debug, info, warn, error, fatal&ndash;&gt;-->
+<!--        <priority value="all"/>-->
+<!--        <appender-ref ref="fileAppender"/>-->
+<!--    </category>-->
+
+    <root>
+        <level value="ALL"/>
+        <appender-ref ref="fileAppender"/>
+    </root>
+
+</log4j:configuration>
