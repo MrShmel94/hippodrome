@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.JUnitCore;
+import org.mockito.Mockito;
 
 
 import java.util.ArrayList;
@@ -48,7 +49,21 @@ public class HippodromeTest {
     }
 
     @Test
+    void HippodromeGetAllHorsesMoveTest(){
+        List <Horse> horses = new ArrayList<>();
+        for (int i = 0; i < 49; i++) {
+            horses.add(Mockito.mock(Horse.class));
+        }
+        Hippodrome hippodrome = new Hippodrome(horses);
+        hippodrome.move();
+        for (int i = 0; i < 49; i++) {
+            Mockito.verify(horses.get(i)).move();
+        }
+    }
+
+    @Test
     void HippodromeGetMaxDistanceHorsesTested(){
         Assertions.assertEquals(horses.get(horses.size() - 1), hippodrome.getWinner());
     }
+
 }

@@ -2,15 +2,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.runner.RunWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
 public class HorseTest {
 
-    private final Horse horse = new Horse("Stela", 2.0, 2.5);
+    private final Horse horse = new Horse("Stela", 31.0, 2.5);
 
     @Test
     void HorseConstructorNullTest() {
@@ -24,13 +21,13 @@ public class HorseTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", " ", "\n"})
+    @ValueSource(strings = {"", " ", "\n", "\t"})
     void HorseConstructorArgumentTest(String s) {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new Horse(s, 2.5));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", " ", "\n"})
+    @ValueSource(strings = {"", " ", "\n", "\t"})
     void HorseConstructorArgumentMessageTest(String s) {
         String message = Assertions.assertThrows(IllegalArgumentException.class, () -> new Horse(s, 2.5)).getMessage();
         Assertions.assertEquals("Name cannot be blank.", message);
@@ -65,7 +62,7 @@ public class HorseTest {
 
     @Test
     void HorseGetSpeedTest() {
-        Assertions.assertEquals(2.0 , horse.getSpeed());
+        Assertions.assertEquals(31.0 , horse.getSpeed());
     }
 
     @Test
@@ -76,7 +73,20 @@ public class HorseTest {
     @Test
     void HorseGetMoveTest() {
         try (MockedStatic <Horse> horseMockedStatic = Mockito.mockStatic(Horse.class)){
-            Mockito.verify(horse).move();
+            horseMockedStatic.when(() -> Horse.getRandomDouble(0.2, 0.9)).thenReturn(0.7);
+            horse.move();
+            horseMockedStatic.verify(() -> Horse.getRandomDouble(0.2, 0.9));
         }
     }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {0.8, 0.6, 0.3})
+    void HorseMoveExpectedDistanceTest (double value) {
+        try (MockedStatic <Horse> horseMockedStatic = Mockito.mockStatic(Horse.class)) {
+            horseMockedStatic.when(() -> Horse.getRandomDouble(0.2, 0.9)).thenReturn(value);
+            horse.move();
+            Assertions.assertEquals(2.5 + 31 * value, horse.getDistance());
+        }
+    }
+
 }
