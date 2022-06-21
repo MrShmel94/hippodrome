@@ -51,12 +51,12 @@ public class HippodromeTest {
     @Test
     void HippodromeGetAllHorsesMoveTest(){
         List <Horse> horses = new ArrayList<>();
-        for (int i = 0; i < 49; i++) {
+        for (int i = 0; i < 50; i++) {
             horses.add(Mockito.mock(Horse.class));
         }
         Hippodrome hippodrome = new Hippodrome(horses);
         hippodrome.move();
-        for (int i = 0; i < 49; i++) {
+        for (int i = 0; i < 50; i++) {
             Mockito.verify(horses.get(i)).move();
         }
     }

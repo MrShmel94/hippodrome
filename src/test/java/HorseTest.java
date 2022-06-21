@@ -8,6 +8,8 @@ import org.mockito.Mockito;
 public class HorseTest {
 
     private final Horse horse = new Horse("Stela", 31.0, 2.5);
+    private final Horse horseDistanceEmpty = new Horse("Stela", 31.0);
+
 
     @Test
     void HorseConstructorNullTest() {
@@ -68,6 +70,11 @@ public class HorseTest {
     @Test
     void HorseGetDistanceTest() {
         Assertions.assertEquals(2.5, horse.getDistance());
+    }
+
+    @Test
+    void HorseGetDistanceThirdParameterEmptyTest() {
+        Assertions.assertEquals(0, horseDistanceEmpty.getDistance());
     }
 
     @Test
